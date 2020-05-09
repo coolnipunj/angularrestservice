@@ -1,0 +1,94 @@
+<h3>Create Employee</h3>
+<div [hidden]="submitted" style="width: 400px;">
+  <form (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="standard">
+      <mat-label>First Name</mat-label>
+      <input matInput type="text" class="form-control" id="firstName" required [(ngModel)]="employee.firstName" name="firstName">
+    </mat-form-field>    
+
+    <mat-form-field appearance="standard">
+      <mat-label>Last Name</mat-label>
+      <input matInput type="text" class="form-control" id="lastName" required [(ngModel)]="employee.lastName" name="lastName">
+    </mat-form-field>      
+
+    <mat-form-field appearance="standard">
+      <mat-label>Email Address</mat-label>
+      <input matInput type="text" class="form-control" id="emailId" required [(ngModel)]="employee.emailId" name="emailId">
+    </mat-form-field>
+
+<!-- 
+    <mat-form-field>
+      <mat-label>State</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let state of stateList" class="form-control" id="state" [(ngModel)]="employee.state" name="state">
+          {{state.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+
+<mat-radio-group
+  [(ngModel)]="employee.gender" name="gender">
+    <mat-radio-button value="M">Male</mat-radio-button>
+    <mat-radio-button value="F">Female</mat-radio-button>
+</mat-radio-group>
+
+
+
+
+<mat-card>
+  <mat-card-content>
+    <section>
+      <mat-checkbox id="active" [(ngModel)]="employee.active" name="active"> Active</mat-checkbox>
+    </section>
+  </mat-card-content>
+</mat-card>
+
+
+<mat-form-field>
+  <input matInput [matDatepicker]="dob" name="dob" [(ngModel)]="employee.dob" placeholder="Date of Birth" required>
+  <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+  <mat-datepicker #dob></mat-datepicker>
+</mat-form-field>
+
+
+  <mat-label>Employee Description</mat-label>
+  <textarea matInput [(ngModel)]="employee.description" name="description" placeholder="Ex. This employee does..."></textarea>
+
+
+
+    <!-- <mat-form-field>
+      <mat-label>Cars</mat-label>
+      <select matNativeControl required>
+        <option value="volvo">Virginia</option>
+
+        <option value="saab">Maryland</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+    </mat-form-field> -->
+
+    <!-- <mat-form-field>
+      <input matInput [matDatepicker]="dob" name="dob" [(ngModel)]="employee.dob" placeholder="Date of Birth" required>
+      <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+      <mat-datepicker #dob></mat-datepicker>
+  </mat-form-field> -->
+
+    <!-- <mat-form-field>
+      <mat-label>Both mat-label</mat-label>
+      <input matInput [matDatepicker]="picker1" autocomplete="off"  placeholder="and placeholder" [(ngModel)]="employee.dob">
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1 color="primary"></mat-datepicker>
+    </mat-form-field> -->
+
+
+    <button type="submit"mat-raised-button color="primary">Submit</button>
+  
+  </form>
+</div>
+
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <!-- <button class="btn btn-success" (click)="newEmployee()">Add</button> -->
+</div>
