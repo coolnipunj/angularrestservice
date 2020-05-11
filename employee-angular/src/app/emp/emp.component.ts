@@ -3,7 +3,7 @@ import { StateService } from '../lov/states/state.service';
 import { Employee } from '../employees/employee';
 import { State } from '../lov/states/state.model';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -23,28 +23,63 @@ export class EmpComponent implements OnInit {
 
   checked = false;
 
-  empForm : FormGroup;
+  empForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private stateService: StateService,
-    private router: Router) { 
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, 
+    private employeeService: EmployeeService, private stateService: StateService,
+    private router: Router) {
 
-      this.stateService.getStatesList().subscribe((res) => {
-        this.stateList = res as State[];
+    this.stateService.getStatesList().subscribe((res) => {
+      this.stateList = res as State[];
     });
 
-    }
-    
-  
+  }
+
+
 
   ngOnInit() {
+
+
+    this.employee.id = this.route.snapshot.params['id'];
+
+    console.log("Before this.employee.id");
+    // if update
+    if (this.employee.id) {
+      console.log("In this.employee.id");
+
+      this.isNew = false;
+
+      this.employeeService.getEmployee(this.employee.id)
+        .subscribe(data => {
+          console.log(data)
+          this.employee = data;
+
+
+          // this.empForm.controls.firstName.value = this.employee.firstName;
+          //   this.employee.lastName = this.empForm.controls.lastName.value;
+          //   this.employee.emailId = this.empForm.controls.emailId.value;
+          //   this.employee.dob = this.empForm.controls.dob.value;
+          //   this.employee.active = this.empForm.controls.active.value;
+          //   this.employee.description = this.empForm.controls.description.value;
+
+
+
+
+        }, error => console.log(error));
+
+    } else
+    {
+      this.isNew = true;
+    }
+
     this.empForm = this.fb.group({
-      firstName	  : ['', Validators.required],
-      lastName    : ['', Validators.required],
-      emailId     : ['', [Validators.required, Validators.email]],
-      gender      : [''],
-      active      : [''],
-      dob         : [''],
-      description : ['']    
+      firstName: [this.employee.firstName, Validators.required],
+      lastName: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email]],
+      gender: [''],
+      active: [''],
+      dob: [''],
+      description: ['']
     })
   }
 
@@ -63,10 +98,10 @@ export class EmpComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    if(this.employee.active == null)
+    if (this.employee.active == null)
       this.employee.active = false;
 
-    this.save(); 
+    this.save();
 
   }
 
@@ -74,48 +109,46 @@ export class EmpComponent implements OnInit {
 
     this.setValues();
 
-    this.employeeService.createEmployee(this.employee)
-    .subscribe(data => console.log(data), error => console.log(error));
-  this.employee = new Employee();
-  this.gotoList();
+    // this.employeeService.createEmployee(this.employee)
+    // .subscribe(data => console.log(data), error => console.log(error));
+    // this.employee = new Employee();
 
 
-    // if (this.isNew) {
-    //     this.surveyService.add(this.selectedSurvey).subscribe(res => {
-    //         console.log(res);
-    //     });
-    // } else {
-    //     console.log("Before sending the data to service:" + this.selectedSurvey.getId());
-    //     this.surveyService.update(this.selectedSurvey).subscribe(res => {
-    //         console.log(res);
-    //     });
+    if (this.isNew) {
+      this.employeeService.createEmployee(this.employee).subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      //console.log("Before sending the data to service:" + this.selectedSurvey.getId());
+      this.employeeService.updateEmployee(this.employee.id, this.employee).subscribe(res => {
+        console.log(res);
+      });
+    }
+
+    this.employee = new Employee();
+    this.gotoList();
+
+  }
+
+  setValues() {
+    this.employee.firstName = this.empForm.controls.firstName.value;
+    this.employee.lastName = this.empForm.controls.lastName.value;
+    this.employee.emailId = this.empForm.controls.emailId.value;
+    this.employee.dob = this.empForm.controls.dob.value;
+    this.employee.active = this.empForm.controls.active.value;
+    this.employee.description = this.empForm.controls.description.value;
+  }
+
+  resetForm() {
+    // if (form) {
+    //     form.reset();
     // }
-    // this.snackBar.open('Success', 'Close', {
-    //     duration: 5000, verticalPosition: 'top',
-    //     horizontalPosition: 'end', panelClass: 'nrm-success-snackbar-style'
-    // });
 
-
-}  
-
-setValues(){
-  this.employee.firstName = this.empForm.controls.firstName.value;
-  this.employee.lastName = this.empForm.controls.lastName.value;
-  this.employee.emailId = this.empForm.controls.emailId.value;
-  this.employee.dob = this.empForm.controls.dob.value;
-  this.employee.active = this.empForm.controls.active.value;
-  this.employee.description = this.empForm.controls.description.value;
-}
-
-resetForm() {
-  // if (form) {
-  //     form.reset();
-  // }
-
-  //this.selectedSurvey = new Survey(null);
-}
+    //this.selectedSurvey = new Survey(null);
+  }
 
   gotoList() {
     this.router.navigate(['/employees']);
   }
+
 }
