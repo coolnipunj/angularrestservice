@@ -54,6 +54,8 @@ export class EmpComponent implements OnInit {
           console.log(data)
           this.employee = data;
 
+          console.log("First Name inside if clause=" + this.employee.firstName);
+          //this.setFormGroupControls();
 
           // this.empForm.controls.firstName.value = this.employee.firstName;
           //   this.employee.lastName = this.empForm.controls.lastName.value;
@@ -62,6 +64,15 @@ export class EmpComponent implements OnInit {
           //   this.employee.active = this.empForm.controls.active.value;
           //   this.employee.description = this.empForm.controls.description.value;
 
+          // this.empForm = this.fb.group({
+          //   firstName: [this.employee.firstName, Validators.required],
+          //   lastName: ['', Validators.required],
+          //   emailId: ['', [Validators.required, Validators.email]],
+          //   gender: [''],
+          //   active: [''],
+          //   dob: [''],
+          //   description: ['']
+          // });
 
 
 
@@ -70,8 +81,10 @@ export class EmpComponent implements OnInit {
     } else
     {
       this.isNew = true;
+      //this.setFormGroupControls();
     }
 
+      // setFormGroupControls(){
     this.empForm = this.fb.group({
       firstName: [this.employee.firstName, Validators.required],
       lastName: ['', Validators.required],
@@ -80,8 +93,24 @@ export class EmpComponent implements OnInit {
       active: [''],
       dob: [''],
       description: ['']
-    })
+    });
+  
+    //console.log("First Name=" + this.employee.firstName);
+
+
   }
+
+  // setFormGroupControls(){
+  //   this.empForm = this.fb.group({
+  //     firstName: ['', Validators.required],
+  //     lastName: ['', Validators.required],
+  //     emailId: ['', [Validators.required, Validators.email]],
+  //     gender: [''],
+  //     active: [''],
+  //     dob: [''],
+  //     description: ['']
+  //   });
+  // }
 
   newEmployee(): void {
     this.submitted = false;
