@@ -5,8 +5,7 @@ import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-update-employee',
-  templateUrl: './update-employee.component.html',
-  styleUrls: ['./update-employee.component.css']
+  templateUrl: './update-employee.component.html'
 })
 export class UpdateEmployeeComponent implements OnInit {
 

@@ -6,8 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-employee-details',
-  templateUrl: './employee-details.component.html',
-  styleUrls: ['./employee-details.component.css']
+  templateUrl: './employee-details.component.html'
 })
 export class EmployeeDetailsComponent implements OnInit {
 

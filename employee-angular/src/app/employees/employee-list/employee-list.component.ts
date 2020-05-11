@@ -9,8 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: "app-employee-list",
-  templateUrl: "./employee-list.component.html",
-  styleUrls: ["./employee-list.component.css"]
+  templateUrl: "./employee-list.component.html"
 })
 export class EmployeeListComponent implements OnInit {
   //employees: Observable<Employee[]>;

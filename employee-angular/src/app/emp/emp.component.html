@@ -1,0 +1,120 @@
+<form [formGroup]="empForm">
+
+    <mat-card>
+
+        <mat-card-header>
+            <mat-card-title> CUSTOM Emp </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+                <div fxFlex="50%">
+                    <mat-form-field>
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName">
+                        <mat-error *ngIf="empForm.controls.firstName.errors">
+                            <div *ngIf="empForm.controls.firstName.errors.required">
+                                First Name is required.
+                            </div>
+                        </mat-error>                       
+                    </mat-form-field>
+                </div>
+                <div fxFlex="50%">
+                    <mat-form-field>
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName">
+                        <mat-error *ngIf="empForm.controls.lastName.errors">
+                            <div *ngIf="empForm.controls.lastName.errors.required">
+                                Last Name is required.
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+                <div fxFlex="33%">
+                    <mat-form-field>
+                        <mat-label>Email Address</mat-label>
+                        <input matInput formControlName="emailId">
+                        <mat-error *ngIf="empForm.controls.emailId.errors">
+                            <div *ngIf="empForm.controls.emailId.errors.required">
+                                Email is required.
+                            </div>
+                            <div *ngIf="empForm.controls.emailId.errors.email">
+                                Email format is not correct.
+                            </div>                            
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+                <div fxFlex="33%">
+                    <mat-radio-group formControlName="gender">
+                        <mat-radio-button value="M">Male</mat-radio-button>
+                        <mat-radio-button value="F">Female</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error *ngIf="empForm.controls.gender.errors">
+                        <div *ngIf="empForm.controls.gender.errors.required">
+                            Gender is required.
+                        </div>
+                    </mat-error>                     
+                </div>
+                <div fxFlex="33%">
+                    <mat-checkbox formControlName="active"> Active</mat-checkbox>
+                    <mat-error *ngIf="empForm.controls.active.errors">
+                        <div *ngIf="empForm.controls.active.errors.required">
+                            Active is required.
+                        </div>  
+                    </mat-error>                                            
+                </div>
+
+            </div>
+
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+                <div fxFlex="33%">
+                    <mat-form-field>
+                        <input matInput formControlName="dob" [matDatepicker]="dob" placeholder="Date of Birth">
+                        <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                        <mat-datepicker #dob></mat-datepicker>
+                        <mat-error *ngIf="empForm.controls.dob.errors">
+                            <div *ngIf="empForm.controls.dob.errors.required">
+                                Date of Birth is required.
+                            </div>  
+                        </mat-error>                        
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+                <div fxFlex="33%">
+                    <mat-label>Employee Description</mat-label>
+                    <textarea matInput formControlName="description" placeholder="Ex. This employee does..."></textarea>
+                    <mat-error *ngIf="empForm.controls.description.errors">
+                        <div *ngIf="empForm.controls.description.errors.required">
+                            Description is required.
+                        </div>  
+                    </mat-error> 
+                </div>
+            </div>
+
+        </mat-card-content>
+
+    </mat-card>
+
+    <mat-card>
+        <button mat-raised-button color="primary" (click)="saveForm()">Save</button>
+        <button mat-raised-button color="primary" type="reset" (click)="resetForm()">Reset</button>
+    </mat-card>
+
+</form>
+
+
+<div [hidden]="!submitted">
+    <h4>You submitted successfully!</h4>
+</div>

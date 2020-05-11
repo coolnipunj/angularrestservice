@@ -1,20 +1,17 @@
-import { EmployeeService } from '../employee.service';
-import { StateService } from '../../lov/states/state.service';
-import { Employee } from '../employee';
-import { State } from '../../lov/states/state.model';
+import { EmployeeService } from '../employees/employee.service';
+import { StateService } from '../lov/states/state.service';
+import { Employee } from '../employees/employee';
+import { State } from '../lov/states/state.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { NgForm } from '@angular/forms';
-
-
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-employee',
-  templateUrl: './create-employee.component.html'
+  templateUrl: './emp.component.html'
 })
-export class CreateEmployeeComponent implements OnInit {
+export class EmpComponent implements OnInit {
 
   isNew = false;
 
@@ -26,7 +23,9 @@ export class CreateEmployeeComponent implements OnInit {
 
   checked = false;
 
-  constructor(private employeeService: EmployeeService, private stateService: StateService,
+  empForm : FormGroup;
+
+  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private stateService: StateService,
     private router: Router) { 
 
       this.stateService.getStatesList().subscribe((res) => {
@@ -34,9 +33,19 @@ export class CreateEmployeeComponent implements OnInit {
     });
 
     }
+    
   
 
   ngOnInit() {
+    this.empForm = this.fb.group({
+      firstName	  : ['', Validators.required],
+      lastName    : ['', Validators.required],
+      emailId     : ['', [Validators.required, Validators.email]],
+      gender      : [''],
+      active      : [''],
+      dob         : [''],
+      description : ['']    
+    })
   }
 
   newEmployee(): void {
@@ -63,6 +72,14 @@ export class CreateEmployeeComponent implements OnInit {
 
   saveForm() {
 
+    this.setValues();
+
+    this.employeeService.createEmployee(this.employee)
+    .subscribe(data => console.log(data), error => console.log(error));
+  this.employee = new Employee();
+  this.gotoList();
+
+
     // if (this.isNew) {
     //     this.surveyService.add(this.selectedSurvey).subscribe(res => {
     //         console.log(res);
@@ -80,6 +97,15 @@ export class CreateEmployeeComponent implements OnInit {
 
 
 }  
+
+setValues(){
+  this.employee.firstName = this.empForm.controls.firstName.value;
+  this.employee.lastName = this.empForm.controls.lastName.value;
+  this.employee.emailId = this.empForm.controls.emailId.value;
+  this.employee.dob = this.empForm.controls.dob.value;
+  this.employee.active = this.empForm.controls.active.value;
+  this.employee.description = this.empForm.controls.description.value;
+}
 
 resetForm() {
   // if (form) {
