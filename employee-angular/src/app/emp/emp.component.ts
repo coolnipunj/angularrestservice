@@ -4,6 +4,7 @@ import { Employee } from '../employees/employee';
 import { State } from '../lov/states/state.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import {ValidatorFn} from '@angular/forms'
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -61,26 +62,9 @@ export class EmpComponent implements OnInit {
           console.log("First Name inside if clause=" + this.employee.firstName);
 
            this.empForm.controls.firstName.setValue(this.employee.firstName);
-          // this.empForm.controls.lastName.setValue(this.employee.lastName);
-          // this.empForm.controls.emailId.setValue(this.employee.emailId);
-          // this.empForm.controls.gender.setValue(this.employee.gender);
-          // this.empForm.controls.active.setValue(this.employee.active);
-          // this.empForm.controls.dob.setValue(this.employee.dob);
-          // this.empForm.controls.description.setValue(this.employee.description);
 
-          // for (var key of Object.keys(this.employee)) {
-          //   this.empForm.controls[key].setValue(this.employee[key]);
-
-          // }
-          console.log(this.empForm.controls);
            for (var key in this.employee) {
-             console.log(key)
              this.empForm.controls[key].setValue(this.employee[key]);
-
-          // }
-          // for(let [key,value] of Object.entries(this.employee)){
-          //   this.empForm.controls[key].setValue(this.employee[key]);
-          //  // this.empForm.controls[`${key}`].setValue(this.employee[key]);
           }
 
 
@@ -97,10 +81,19 @@ export class EmpComponent implements OnInit {
 
   }
 
+  changeCity(e) {
+    console.log(e.value)
+    this.employee.state= e.target.value;
+  }
+
   setFormGroupControls(){
+    const youngerThanValidator = (maxAge: number): ValidatorFn => control =>
+  (new Date()).getFullYear() - (new Date(control.value)).getFullYear() > maxAge 
+    ? { younger: { maxAge } } 
+    : null;
     this.empForm = this.fb.group({
       id: ['' ],
-      firstName: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.maxLength(10)]],
       lastName: ['', Validators.required],
       emailId: ['', [Validators.required, Validators.email]],
       gender: [''],
@@ -159,12 +152,17 @@ export class EmpComponent implements OnInit {
   }
 
   setValues() {
+  //  for (var key in this.employee) {
+  //     this.employee[key] = this.empForm.controls[key].value;
+  //  }
     this.employee.firstName = this.empForm.controls.firstName.value;
     this.employee.lastName = this.empForm.controls.lastName.value;
     this.employee.emailId = this.empForm.controls.emailId.value;
     this.employee.dob = this.empForm.controls.dob.value;
     this.employee.active = this.empForm.controls.active.value;
     this.employee.description = this.empForm.controls.description.value;
+    this.employee.state = this.empForm.controls.state.value;
+    this.employee.gender = this.empForm.controls.gender.value;
   }
 
   resetForm() {

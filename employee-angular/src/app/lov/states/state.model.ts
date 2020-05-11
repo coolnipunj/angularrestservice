@@ -1,5 +1,5 @@
 export class State {
     id: number;
-    code: string;
+    code: number;
     name: string;   
 }
