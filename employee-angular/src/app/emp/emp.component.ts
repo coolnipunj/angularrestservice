@@ -33,6 +33,10 @@ export class EmpComponent implements OnInit {
       this.stateList = res as State[];
     });
 
+
+    this.setFormGroupControls();
+
+
   }
 
 
@@ -55,24 +59,29 @@ export class EmpComponent implements OnInit {
           this.employee = data;
 
           console.log("First Name inside if clause=" + this.employee.firstName);
-          //this.setFormGroupControls();
 
-          // this.empForm.controls.firstName.value = this.employee.firstName;
-          //   this.employee.lastName = this.empForm.controls.lastName.value;
-          //   this.employee.emailId = this.empForm.controls.emailId.value;
-          //   this.employee.dob = this.empForm.controls.dob.value;
-          //   this.employee.active = this.empForm.controls.active.value;
-          //   this.employee.description = this.empForm.controls.description.value;
+           this.empForm.controls.firstName.setValue(this.employee.firstName);
+          // this.empForm.controls.lastName.setValue(this.employee.lastName);
+          // this.empForm.controls.emailId.setValue(this.employee.emailId);
+          // this.empForm.controls.gender.setValue(this.employee.gender);
+          // this.empForm.controls.active.setValue(this.employee.active);
+          // this.empForm.controls.dob.setValue(this.employee.dob);
+          // this.empForm.controls.description.setValue(this.employee.description);
 
-          // this.empForm = this.fb.group({
-          //   firstName: [this.employee.firstName, Validators.required],
-          //   lastName: ['', Validators.required],
-          //   emailId: ['', [Validators.required, Validators.email]],
-          //   gender: [''],
-          //   active: [''],
-          //   dob: [''],
-          //   description: ['']
-          // });
+          // for (var key of Object.keys(this.employee)) {
+          //   this.empForm.controls[key].setValue(this.employee[key]);
+
+          // }
+          console.log(this.empForm.controls);
+           for (var key in this.employee) {
+             console.log(key)
+             this.empForm.controls[key].setValue(this.employee[key]);
+
+          // }
+          // for(let [key,value] of Object.entries(this.employee)){
+          //   this.empForm.controls[key].setValue(this.employee[key]);
+          //  // this.empForm.controls[`${key}`].setValue(this.employee[key]);
+          }
 
 
 
@@ -84,33 +93,23 @@ export class EmpComponent implements OnInit {
       //this.setFormGroupControls();
     }
 
-      // setFormGroupControls(){
+
+
+  }
+
+  setFormGroupControls(){
     this.empForm = this.fb.group({
-      firstName: [this.employee.firstName, Validators.required],
+      id: ['' ],
+      firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       emailId: ['', [Validators.required, Validators.email]],
       gender: [''],
       active: [''],
       dob: [''],
-      description: ['']
+      description: [''],
+      state: ['']
     });
-  
-    //console.log("First Name=" + this.employee.firstName);
-
-
   }
-
-  // setFormGroupControls(){
-  //   this.empForm = this.fb.group({
-  //     firstName: ['', Validators.required],
-  //     lastName: ['', Validators.required],
-  //     emailId: ['', [Validators.required, Validators.email]],
-  //     gender: [''],
-  //     active: [''],
-  //     dob: [''],
-  //     description: ['']
-  //   });
-  // }
 
   newEmployee(): void {
     this.submitted = false;

@@ -4,7 +4,6 @@ export class Employee {
     lastName: string;
     emailId: string;
     dob: Date;
-    // state: string;
     gender: string;
     description: string;
     active: boolean;
