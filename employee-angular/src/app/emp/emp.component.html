@@ -3,7 +3,7 @@
     <mat-card>
 
         <mat-card-header>
-            <mat-card-title> CUSTOM Emp </mat-card-title>
+            <mat-card-title> Emp Form </mat-card-title>
         </mat-card-header>
 
         <mat-card-content>
@@ -13,14 +13,20 @@
                     <mat-form-field>
                         <mat-label>First Name</mat-label>
                         <input matInput formControlName="firstName">
-                        <mat-error *ngIf="empForm.controls.firstName.errors">
-                            <div *ngIf="empForm.controls.firstName.errors.required">
-                                First Name is required.
-                            </div>
-                            <div *ngIf="empForm.controls.firstName.errors.maxlength">
-                                First Name cannot be longer than 10 characters.
-                            </div>
-                        </mat-error>                       
+                        <mat-error *ngFor="let validation of formValidationMessages.firstName">
+                            <mat-error
+                                *ngIf="empForm.get('firstName').hasError(validation.type) && (empForm.get('firstName').dirty || empForm.get('firstName').touched)">
+                                {{validation.message}}
+                            </mat-error>
+                        </mat-error>
+                        <!--mat-error *ngIf="empForm.controls.firstName.errors">
+                                                <div *ngIf="empForm.controls.firstName.errors.required">
+                                                    First Name is required.
+                                                </div>
+                                                <div *ngIf="empForm.controls.firstName.errors.maxlength">
+                                                    First Name cannot be longer than 10 characters.
+                                                </div>
+                                            </mat-error-->
                     </mat-form-field>
                 </div>
                 <div fxFlex="50%">
@@ -96,7 +102,7 @@
                 <div fxFlex="33%">
             <mat-form-field >
                 <mat-label>State</mat-label>
-                <mat-select formControlName="state" >
+                <mat-select matNativeControl formControlName="state" >
                   <mat-option
                    *ngFor="let lov of stateList" ngDefaultControl [value] = "lov.id">
                     {{lov.name}}

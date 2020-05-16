@@ -5,15 +5,6 @@
   <div class="panel-body">
   
     <mat-table #employeeTable="matSort" [dataSource]="employeeDataSource" matSort>
-      <!-- <ng-container matColumnDef="details">
-          <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
-          <mat-cell fxFlex="50px" *matCellDef="let element">
-              <button mat-icon-button color="primary" [routerLink]="['/survey/', element.surveyId]">
-              <mat-icon>reorder</mat-icon>
-              </button>
-          </mat-cell>
-      </ng-container> -->
-
       <ng-container matColumnDef="delete">
         <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
         <mat-cell fxFlex="50px" *matCellDef="let element">

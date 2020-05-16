@@ -1,0 +1,178 @@
+<form [formGroup]="empForm">
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            <h5 style="color:#3f51b5">Emp Search
+            </h5>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+            <div fxFlex="50%">
+                <mat-form-field>
+                    <mat-label>First Name</mat-label>
+                    <input matInput formControlName="firstName">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px" fxLayoutAlign="flex-start">
+            <div fxFlex="50%">
+                <mat-form-field>
+                    <mat-label>Last Name</mat-label>
+                    <input matInput formControlName="lastName">
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+            <div fxFlex="33%">
+                <mat-form-field>
+                    <mat-label>Email Address</mat-label>
+                    <input matInput formControlName="emailId">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+            <div fxFlex="33%">
+                <mat-radio-group matInput formControlName="gender">
+                    <mat-radio-button value='M'>Male</mat-radio-button>
+                    <mat-radio-button value='F'>Female</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div fxFlex="33%">
+                <mat-checkbox formControlName="active"> Active</mat-checkbox>
+            </div>
+
+        </div>
+
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+            <div fxFlex="33%">
+                <mat-form-field>
+                    <input matInput formControlName="dob" [matDatepicker]="dob" placeholder="Date of Birth">
+                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                    <mat-datepicker #dob></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+            <div fxFlex="33%">
+        <mat-form-field >
+            <mat-label>State</mat-label>
+            <mat-select matNativeControl formControlName="state" >
+              <mat-option
+               *ngFor="let lov of stateList" ngDefaultControl [value] = "lov.id">
+                {{lov.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </div>
+
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="0px" fxLayoutAlign="flex-start">
+            <div fxFlex="33%">
+                <mat-label>Employee Description</mat-label>
+                <textarea matInput formControlName="description" placeholder="Ex. This employee does..."></textarea>
+            </div>
+        </div>        
+
+        <mat-card>
+            <button mat-raised-button color="primary" (click)="searchEmp()">Search</button>
+            <!-- <button mat-raised-button color="primary" type="reset" (click)="resetForm()">Reset</button> -->
+        </mat-card>
+
+    </mat-card-content>
+</mat-card>
+</form>
+
+<mat-card *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center">
+    <mat-progress-spinner color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+</mat-card>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2>Emp List</h2>
+    </div>
+    <div class="panel-body">
+
+        <mat-table #employeeTable="matSort" [dataSource]="employeeDataSource" matSort>
+            <ng-container matColumnDef="delete">
+                <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
+                <mat-cell fxFlex="50px" *matCellDef="let element">
+                    <button mat-icon-button color="warn" (click)="deleteEmployee(element.id)">
+                        <mat-icon class="mat-18">delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> First Name </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.firstName}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.lastName}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="emailId">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> Email ID </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.emailId}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="dob">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> DOB </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.dob}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.gender}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.description}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="active">
+                <mat-header-cell fxFlex *matHeaderCellDef mat-sort-header> Active </mat-header-cell>
+                <mat-cell fxFlex class="flex-stretch" *matCellDef="let element"> {{element.active}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="details">
+                <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
+                <mat-cell fxFlex="50px" *matCellDef="let element">
+                    <button mat-icon-button color="warn" (click)="employeeDetails(element.id)">
+                        <mat-icon class="mat-18">reorder</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="update">
+                <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
+                <mat-cell fxFlex="50px" *matCellDef="let element">
+                    <button mat-icon-button color="warn" (click)="updateEmployee(element.id)">
+                        <mat-icon class="mat-18">edit</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="employeeDisplayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; let odd = odd; columns: employeeDisplayedColumns;" (click)="onRowClicked(row)"
+                [ngClass]="{rowodd: odd, highlighted: selectedRowIndex == row.cn}"></mat-row>
+        </mat-table>
+
+        <!--mat-paginator #employeePaginator [length]="employeeDataSource.length" [pageSize]="10" [pageIndex]="0"
+            [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator-->
+
+
+    </div>
+</div>

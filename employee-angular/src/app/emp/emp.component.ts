@@ -26,6 +26,13 @@ export class EmpComponent implements OnInit {
 
   empForm: FormGroup;
 
+
+  formValidationMessages = {
+    firstName: [{ type: 'required', message: 'First Name is required' },{ type: 'maxlength', message: 'Name cannot be more than 30 characters long' } ],
+    lastName: [{ type: 'maxlength', message: 'Name cannot be more than 30 characters long' } ]
+  };
+
+
   constructor(private route: ActivatedRoute, private fb: FormBuilder, 
     private employeeService: EmployeeService, private stateService: StateService,
     private router: Router) {
@@ -91,8 +98,9 @@ export class EmpComponent implements OnInit {
   (new Date()).getFullYear() - (new Date(control.value)).getFullYear() > maxAge 
     ? { younger: { maxAge } } 
     : null;
+
     this.empForm = this.fb.group({
-      id: ['' ],
+      id: [{value: '', disabled: true}],
       firstName: ['', [Validators.required, Validators.maxLength(10)]],
       lastName: ['', Validators.required],
       emailId: ['', [Validators.required, Validators.email]],
@@ -102,6 +110,7 @@ export class EmpComponent implements OnInit {
       description: [''],
       state: ['']
     });
+    
   }
 
   newEmployee(): void {

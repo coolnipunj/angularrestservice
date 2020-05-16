@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { CreateEmployeeComponent } from './employees/create-employee/create-employee.component';
 import { EmployeeDetailsComponent } from './employees/employee-details/employee-details.component';
 import { EmpComponent } from './emp/emp.component';
+import { EmpSearchComponent } from './emp/emp-search.component';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UpdateEmployeeComponent } from './employees/update-employee/update-employee.component';
@@ -16,10 +17,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
+    EmpComponent,
+    EmpSearchComponent,
     CreateEmployeeComponent,
     EmployeeDetailsComponent,
     EmployeeListComponent,
-    EmpComponent,
     UpdateEmployeeComponent
   ],
   imports: [

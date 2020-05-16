@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Employee';
+  customCollapsedHeight:string = '30px';
+  customExpandedHeight:string = '20px';
 }
