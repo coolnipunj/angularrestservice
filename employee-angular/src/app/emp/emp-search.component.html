@@ -100,7 +100,9 @@
         <h2>Emp List</h2>
     </div>
     <div class="panel-body">
-
+        <button mat-icon-button color="primary" [routerLink]="['/emp/']">
+            <mat-icon>add</mat-icon>
+        </button>
         <mat-table #employeeTable="matSort" [dataSource]="employeeDataSource" matSort>
             <ng-container matColumnDef="delete">
                 <mat-header-cell fxFlex="50px" *matHeaderCellDef> </mat-header-cell>
